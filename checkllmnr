@@ -1,0 +1,11 @@
+# LLMNR
+$llmnr = (Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name EnableMulticast -ErrorAction SilentlyContinue).EnableMulticast
+Write-Host "LLMNR: $(if($llmnr -eq 0){'Disabled'}else{'Enabled'})"
+
+# NetBIOS
+$netbios = Get-WmiObject Win32_NetworkAdapterConfiguration | Select-Object Description, TcpipNetbiosOptions
+$netbios | ForEach-Object { Write-Host "NetBIOS ($($_.Description)): $(if($_.TcpipNetbiosOptions -eq 2){'Disabled'}else{'Enabled'})" }
+
+# mDNS
+$mdns = (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name EnableMDNS -ErrorAction SilentlyContinue).EnableMDNS
+Write-Host "mDNS: $(if($mdns -eq 0){'Disabled'}else{'Enabled'})"
