@@ -1,0 +1,1 @@
+Write-Host 'OS Supports IPv6: ' $( [System.Net.Sockets.Socket]::OSSupportsIPv6 )
